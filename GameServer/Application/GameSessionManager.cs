@@ -73,11 +73,6 @@ namespace GameServer.Application
             {
                 throw new Exception($"Game session {sessionId} does not exist");
             }
-
-            if (_gameSessionRepository.GetById(sessionId).Status == GameSessionStatus.ENDED)
-            {
-                throw new Exception($"Game session {sessionId} has ended");
-            }
         }
 
 
