@@ -86,7 +86,7 @@ GameClient receive messages like below:
 
 1. Tests were not written due to time constraint. However, if tests were written, it'd be best written to test the contract, which are the messages that are exchanged on the queues. For example, if client submit a StartGameRequest to the request-queue, then the server is expected to submit a StartGameResponse back. Some refactoring is required to create the interfaces to allow this contract testing.
 
-2. Scaling is not implemented intentionally to keep it simple. However, it's possible. IRepository pattern is used for storing game session. So currently GameSerer is a stateful app. To scale out horizontally, we can use competing consumer pattern with repository moved to external persistence to make GameServer stateless or set up some session affinity mechanism. Vertically scaling can be done by processing multiple message with threads.
+2. Scaling on the server side is not implemented intentionally to keep it simple. However, it's possible. IRepository pattern is used for storing game sessions. Currently the repository is a in-memory repository, hence GameSerer is a stateful app. To scale out horizontally, we can use competing consumer pattern with repository moved to external persistence to make GameServer stateless or set up some session affinity mechanism. Vertically scaling can be done by processing multiple message with threads.
 
 3. GameServer doesn't track game result. This can be done easily, but skipped due to time constraint.
 
