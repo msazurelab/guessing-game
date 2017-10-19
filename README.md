@@ -96,14 +96,14 @@ GameClient receive messages like below:
 
 4. We can host the server on Azure WebApp. Again, this can be done, but skipped due to time constraint.
 
-5. A possible better messaging mechanism is this.
+5. As an afterthought, a possible better messaging mechanism can be done like this.
 
 In request message, client specify where it wants to receive the response message. It can specify this in a ReplyTo field like so.
 
 RequestMessage
 - ReplyTo: <queue-name> <sessionId>
 
-Then, once the message is processed, the server sends a response message to the specific queue with the session Id. This is neater as it follow the request-reply pattern in Enterprise Integration Patterns.
+Then, once the message is processed, the server sends a response message to the specific queue with the session Id. This is neater as it follow the request-reply pattern in Enterprise Integration Patterns. Currently, all messages within the same session are sent with the same sessionId, if there is more than two messages in the queue for any reason (bug, etc), it would cause issue. By disassociating message session with game session, we can have one session per request-response. This would help with correlating response to the request with much better confidence.
 
 ![Alt text](http://www.enterpriseintegrationpatterns.com/img/RequestReply.gif?raw=true "Optional Title")http://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html
 
