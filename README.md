@@ -1,7 +1,13 @@
 # guessing-game
 
 
+### Game Rules
+
+This is a console guessing game which allow users to a set of question about the solution. Users are allow to ask 5 Yes-or-No questions in each game, and is given 5 attempts to guess the solution. If the user got the answer right within 5 attempts, then the user wins.
+
+
 ### Pre-req
+
 1. An Azure account.
 https://azure.microsoft.com
 
@@ -12,6 +18,7 @@ https://www.visualstudio.com/downloads/
 
 
 ### Setup
+
 1. Create a Azure Service Bus Namesapce. Choose standard tier.
 Follow this https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-create-namespace-portal.
 
@@ -40,12 +47,8 @@ GameClient.exe
 GameServer.exe
 ```
 
-
-### Game Rules
-This is a console guessing game which allow users to a set of question about the solution. Users are allow to ask 5 Yes-or-No questions in each game, and is given 5 attempts to guess the solution. If the user got the answer right within 5 attempts, then the user wins.
-
-
 ### Design
+
 Here are the main components of the solution:
 
 Apps
