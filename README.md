@@ -61,6 +61,8 @@ Azure Service Bus Queues
 * request-queue - queue to send request messages to
 * response-queue - queue to send response messages to
 
+The client and the server exchanges message via request-queue and response-queue. Client sends request messages to request-queue, which server polls periodically and sends the response back to response-queue.
+
 The server supports concurrent gameplay with sessions. Client will start a game session by submitting a StartGameRequest message with SessionId to request-queue, and the server will respond if the session is created successfully. Subsequent response messages within the game session will be sent to the request-queue with SessionId set to the Id of the game session.
 
 The client keeps track of the current game session. When it retrives message from the request-queue, it will specify the sessionId, so that the client will only receive message that's related to the current session, and not other sessions in other client instances.
@@ -92,3 +94,23 @@ GameClient receive messages like below:
 
 3. GameServer doesn't track game result. This can be done easily, but skipped due to time constraint.
 
+4. We can host the server on Azure WebApp. Again, this can be done, but skipped due to time constraint.
+
+5. A possible better messaging mechanism is this.
+
+In request message, client specify where it wants to receive the response message. It can specify this in a ReplyTo field like so.
+
+RequestMessage
+- ReplyTo: <queue-name> <sessionId>
+
+Then, once the message is processed, the server sends a response message to the specific queue with the session Id. This is neater as it follow the request-reply pattern in Enterprise Integration Patterns.
+
+![Alt text](http://www.enterpriseintegrationpatterns.com/img/RequestReply.gif?raw=true "Optional Title")http://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html
+
+
+
+
+
+
+
+ 
