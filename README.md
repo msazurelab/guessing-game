@@ -67,14 +67,14 @@ The client keeps track of the current game session. When it retrives message fro
 
 GameServer send messages like below:
 ```
-            var client = QueueClient.CreateFromConnectionString(connectionString, queueName);
-            var jsonMessage = JsonConvert.SerializeObject(messageBody);
-            var message = new BrokeredMessage(jsonMessage);
-            if(!string.IsNullOrWhiteSpace(sessionId))
-            {
-                message.SessionId = sessionId;
-            }
-            client.Send(message);
+    var client = QueueClient.CreateFromConnectionString(connectionString, queueName);
+    var jsonMessage = JsonConvert.SerializeObject(messageBody);
+    var message = new BrokeredMessage(jsonMessage);
+    if(!string.IsNullOrWhiteSpace(sessionId))
+    {
+        message.SessionId = sessionId;
+    }
+    client.Send(message);
 ```
 
 GameClient receive messages like below:
