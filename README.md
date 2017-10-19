@@ -5,6 +5,8 @@
 
 This is a console guessing game which allow users to a set of question about the solution. Users are allow to ask 5 Yes-or-No questions in each game, and is given 5 attempts to guess the solution. If the user got the answer right within 5 attempts, then the user wins.
 
+![Alt text](/GameScreenshot.jpg?raw=true "Optional Title")
+
 
 ### Pre-req
 
