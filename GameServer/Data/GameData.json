@@ -1,0 +1,127 @@
+﻿[
+  {
+    "Solution": "Dog",
+    "Hints": [
+      {
+        "QuestionId": 1,
+        "Answer": true
+      },
+      {
+        "QuestionId": 2,
+        "Answer": true
+      },
+      {
+        "QuestionId": 3,
+        "Answer": true
+      },
+      {
+        "QuestionId": 4,
+        "Answer": false
+      },
+      {
+        "QuestionId": 5,
+        "Answer": true
+      }
+    ]
+  },
+  {
+    "Solution": "Bird",
+    "Hints": [
+      {
+        "QuestionId": 1,
+        "Answer": true
+      },
+      {
+        "QuestionId": 2,
+        "Answer": true
+      },
+      {
+        "QuestionId": 3,
+        "Answer": false
+      },
+      {
+        "QuestionId": 4,
+        "Answer": false
+      },
+      {
+        "QuestionId": 5,
+        "Answer": true
+      }
+    ]
+  },
+  {
+    "Solution": "Cheetah",
+    "Hints": [
+      {
+        "QuestionId": 1,
+        "Answer": true
+      },
+      {
+        "QuestionId": 2,
+        "Answer": true
+      },
+      {
+        "QuestionId": 3,
+        "Answer": true
+      },
+      {
+        "QuestionId": 4,
+        "Answer": true
+      },
+      {
+        "QuestionId": 5,
+        "Answer": true
+      }
+    ]
+  },
+  {
+    "Solution": "Facebook",
+    "Hints": [
+      {
+        "QuestionId": 1,
+        "Answer": false
+      },
+      {
+        "QuestionId": 2,
+        "Answer": false
+      },
+      {
+        "QuestionId": 3,
+        "Answer": false
+      },
+      {
+        "QuestionId": 4,
+        "Answer": false
+      },
+      {
+        "QuestionId": 5,
+        "Answer": false
+      }
+    ]
+  },
+  {
+    "Solution": "TV",
+    "Hints": [
+      {
+        "QuestionId": 1,
+        "Answer": false
+      },
+      {
+        "QuestionId": 2,
+        "Answer": false
+      },
+      {
+        "QuestionId": 3,
+        "Answer": false
+      },
+      {
+        "QuestionId": 4,
+        "Answer": false
+      },
+      {
+        "QuestionId": 5,
+        "Answer": true
+      }
+    ]
+  }
+]

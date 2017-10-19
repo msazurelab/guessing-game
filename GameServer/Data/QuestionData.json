@@ -1,0 +1,22 @@
+﻿[
+  {
+    "Id": 1,
+    "Value": "Is it a living thing?"
+  },
+  {
+    "Id": 2,
+    "Value": "Can it be a pet?"
+  },
+  {
+    "Id": 3,
+    "Value": "Does it have four legs?"
+  },
+  {
+    "Id": 4,
+    "Value": "Is it faster than a Ferrari?"
+  },
+  {
+    "Id": 5,
+    "Value": "Can a millennial live without it?"
+  }
+]
