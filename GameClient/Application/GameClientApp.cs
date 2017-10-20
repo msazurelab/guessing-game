@@ -39,7 +39,7 @@ namespace GameClient.Application
                     SessionId = sessionId
                 };
                 ServiceBusQueueMessageProducer.SendMessageToQueue(_connectionString, ApplicationConstants.RequestQueueName, startGameRequest);
-                PollForMessage(sessionId);
+                PollAndHandleMessage(sessionId);
 
                 while (true)
                 {
@@ -68,7 +68,7 @@ namespace GameClient.Application
 
                             var askQuestionRequest = new AskQuestionRequest(questionId);
                             ServiceBusQueueMessageProducer.SendMessageToQueue(_connectionString, ApplicationConstants.RequestQueueName, askQuestionRequest, sessionId);
-                            PollForMessage(sessionId);
+                            PollAndHandleMessage(sessionId);
                             break;
 
                         case "2":
@@ -78,7 +78,7 @@ namespace GameClient.Application
 
                             var guessAnswerRequest = new GuessAnswerRequest(guess);
                             ServiceBusQueueMessageProducer.SendMessageToQueue(_connectionString, ApplicationConstants.RequestQueueName, guessAnswerRequest, sessionId);
-                            PollForMessage(sessionId);
+                            PollAndHandleMessage(sessionId);
                             break;
 
                         default:
@@ -98,7 +98,7 @@ namespace GameClient.Application
         }
 
 
-        public void PollForMessage(string sessionId)
+        public void PollAndHandleMessage(string sessionId)
         {
             while (true)
             {
@@ -113,44 +113,19 @@ namespace GameClient.Application
                 try
                 {
                     string messageBody = message.GetBody<string>();
-                    //Console.WriteLine($"Received Message Id: {message.MessageId} Body: {messageBody}");
                     var response = JsonConvert.DeserializeObject<Response>(messageBody);
                     switch (response.Type)
                     {
                         case ResponseType.StartGame:
-                            var startGameResponse = JsonConvert.DeserializeObject<StartGameResponse>(messageBody);
-                            _questions = startGameResponse.Questions;
-                            Console.WriteLine(startGameResponse.Message);
-                            Console.WriteLine();
+                            HandleStartGameResponse(messageBody);
                             break;
 
                         case ResponseType.AskQuestion:
-                            var askQuestionResponse = JsonConvert.DeserializeObject<AskQuestionResponse>(messageBody);
-                            string answer = askQuestionResponse.IsTrue ? "Yes" : "No";
-                            Console.WriteLine($"Answer: {answer}");
-                            Console.WriteLine();
+                            HandleAskQuestionResponse(messageBody);
                             break;
 
                         case ResponseType.GuessAnswer:
-                            var guessAnswerResponse = JsonConvert.DeserializeObject<GuessAnswerResponse>(messageBody);
-                            if (guessAnswerResponse.IsSolutionCorrect)
-                            {
-                                Console.WriteLine("Congratulation! You've won!");
-                                _isGameOver = true;
-                            }
-                            else
-                            {
-                                if (++_guessAttempts >= maxGuessAttempts)
-                                {
-                                    Console.WriteLine("Oops, you didn't get it right! Better luck next time! :)");
-                                    _isGameOver = true;
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"You have {maxGuessAttempts - _guessAttempts} guess attempts left");
-                                }
-                            }
-                            Console.WriteLine();
+                            HandleGuessAnswerResponse(messageBody);
                             break;
                     }
                     return;
@@ -172,6 +147,45 @@ namespace GameClient.Application
                 }
                 System.Threading.Thread.Sleep(1000);
             }
+        }
+
+        private void HandleStartGameResponse(string messageBody)
+        {
+            var startGameResponse = JsonConvert.DeserializeObject<StartGameResponse>(messageBody);
+            _questions = startGameResponse.Questions;
+            Console.WriteLine(startGameResponse.Message);
+            Console.WriteLine();
+        }
+
+        private static void HandleAskQuestionResponse(string messageBody)
+        {
+            var askQuestionResponse = JsonConvert.DeserializeObject<AskQuestionResponse>(messageBody);
+            string answer = askQuestionResponse.IsTrue ? "Yes" : "No";
+            Console.WriteLine($"Answer: {answer}");
+            Console.WriteLine();
+        }
+
+        private void HandleGuessAnswerResponse(string messageBody)
+        {
+            var guessAnswerResponse = JsonConvert.DeserializeObject<GuessAnswerResponse>(messageBody);
+            if (guessAnswerResponse.IsSolutionCorrect)
+            {
+                Console.WriteLine("Congratulation! You've won!");
+                _isGameOver = true;
+            }
+            else
+            {
+                if (++_guessAttempts >= maxGuessAttempts)
+                {
+                    Console.WriteLine("Oops, you didn't get it right! Better luck next time! :)");
+                    _isGameOver = true;
+                }
+                else
+                {
+                    Console.WriteLine($"You have {maxGuessAttempts - _guessAttempts} guess attempts left");
+                }
+            }
+            Console.WriteLine();
         }
     }
 }
