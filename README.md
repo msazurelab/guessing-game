@@ -93,7 +93,7 @@ GameClient receive messages like below:
 2. Scaling on the server side is not implemented intentionally to keep it simple. However, it's possible. IRepository pattern is used for storing game sessions. Currently the repository is a in-memory repository, hence GameSerer is a stateful app. To scale out horizontally, we can use competing consumer pattern (Please see diagram below. Consumer is GameServer in our context) with repository moved to external persistence to make GameServer stateless or set up some session affinity mechanism. Vertically scaling can be done by processing multiple message with threads.
 
 ![Alt text](http://www.enterpriseintegrationpatterns.com/img/CompetingConsumers.gif?raw=true "Optional Title")
-Source: http://www.enterpriseintegrationpatterns.com/patterns/messaging/CompetingConsumers.html
+http://www.enterpriseintegrationpatterns.com/patterns/messaging/CompetingConsumers.html
 
 
 3. GameServer doesn't track game result. This can be done easily, but skipped due to time constraint.
@@ -106,13 +106,15 @@ Source: http://www.enterpriseintegrationpatterns.com/patterns/messaging/Competin
 
 In request message, client specify where it wants to receive the response message. It can specify this in a ReplyTo field like so.
 
+```
 RequestMessage
 - ReplyTo: <queue-name> <sessionId>
+```
 
 Then, once the message is processed, the server sends a response message to the specific queue with the session Id. This is neater as it follow the request-reply pattern in Enterprise Integration Patterns. Currently, all response messages within the same session are sent with the same sessionId, if there is more than two messages in the queue for any reason (bug, etc), it would cause issue. By disassociating message session with game session, we can have one session per request-response. This would help with correlating response to the request with much better confidence.
 
 ![Alt text](http://www.enterpriseintegrationpatterns.com/img/RequestReply.gif?raw=true "Optional Title")
-Source: http://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html
+http://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html
 
 
 7. Another afterthought, it's be much cooler if we can have sort of PubSub with the Queues. Azure Service Bus offers Topics which has subscriptions, however, it still requires the subscriber to poll from the subscription queue. It's still not a nice PubSub model. Azure Service Fabrics Reliable Actor has nice framework for this. There is a open source PubSub actor project that's built on top on ASF. https://github.com/loekd/ServiceFabric.PubSubActors. Basically, a subscribing actor can pass on its reference to the PubSub actor and register. When the publishing actor publishes a message to the PubSub actor, the PubActor actor would forward that message to the subscribing actor.
